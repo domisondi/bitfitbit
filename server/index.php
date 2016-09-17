@@ -1,5 +1,7 @@
 <?php
 
+define(BITFIT_HOME_URL, '/bitfit/server/');
+
 require_once 'core/core.php';
 global $database;
 
@@ -7,16 +9,22 @@ $status = '';
 
 // parse post data
 if(isset($_POST['create_item'])){
-    $item = new Item(0, $_POST['coll_id'], $_POST['item_name'], $_POST['nr_steps']);
+    $item = new Item(0, $_POST['coll_id'], $_POST);
     $res = $item->insert_into_database();
     if($res) $status = '<h4 style="color:green;">Item added!</h4>';
     else $status = '<h4 style="color:red;">Item could not be added!</h4>';
 }
 else if(isset($_POST['create_collection'])){
-    $collection = new Collection(0, array('name' => $_POST['name']));
+    $collection = new Collection(0, $_POST);
     $res = $collection->insert_into_database();
     if($res) $status = '<h4 style="color:green;">Collection added!</h4>';
     else $status = '<h4 style="color:red;">Collection could not be added!</h4>';
+}
+else if(isset($_POST['delete_collection'])){
+    if(Collection::delete_collection($_POST['id'])){
+        $status = '<h4 style="color:green;">Collection removed!</h4>';
+    }
+    else $status = '<h4 style="color:red;">Collection could not be removed!</h4>';
 }
 
 ?>
@@ -48,7 +56,7 @@ else if(isset($_POST['create_collection'])){
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h3 id="title"><a href=""><img id="logo" height="30" src="res/logo.png" alt="<?php echo 'BitFit Store'; ?>"></a></h3>
+                        <h3 id="title"><a href="<?php echo BITFIT_HOME_URL; ?>"><img id="logo" height="30" src="res/logo.png" alt="<?php echo 'BitFit Store'; ?>"></a></h3>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul id="navbar-content" class="nav navbar-nav navbar-right">
@@ -70,6 +78,9 @@ else if(isset($_POST['create_collection'])){
                             <?php switch($_GET['page']){
                                 case 'callback': 
                                     require 'pages/callback.php';
+                                    break;
+                                case 'collections': 
+                                    require 'pages/collections.php';
                                     break;
                                 default:
                                     require 'pages/default.php';

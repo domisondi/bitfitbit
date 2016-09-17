@@ -3,9 +3,9 @@
 require_once '../core/core.php';
 
 global $output;
-$output = array('status' => 0, 'message' => '');
+$output = array('status' => 0, 'err_msg' => '');
 
-$valid_requests = array('items', 'bits');
+$valid_requests = array('items', 'bits', 'stats', 'complete');
 
 ignore_user_abort(true);
 
@@ -20,7 +20,7 @@ try {
     }
 } catch(Exception $ex){
     $output['status'] = -1;
-    $output['message'] = $ex->getMessage();
+    $output['err_msg'] = $ex->getMessage();
 }
 echo json_encode($output);
 

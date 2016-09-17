@@ -21,9 +21,6 @@ require_once 'Collection.php';
 require_once 'User.php';
 require_once 'FitBit.php';
 
-global $fitbit;
-$fitbit = new FitBit();
-
 function get_collections() {
     global $database;
     $database->query("SELECT * FROM collections");
