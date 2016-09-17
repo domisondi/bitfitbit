@@ -107,5 +107,6 @@ class User {
         $database->bind('user_id', $this->id);
         $database->bind('coll_id', $item->coll_id);
         $database->bind('item_id', $item->id);
+        $database->execute();
     }
 }

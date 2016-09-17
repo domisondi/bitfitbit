@@ -31,6 +31,8 @@ class FitBit {
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
 
+        if($http_response_header[0] !== "HTTP/1.1 200 OK") throw new Exception ("Fitbit didn't accept the request.");
+        
         return $response;
     }
 }
