@@ -16,9 +16,12 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var serverUrl = 'http://192.168.1.94/bitfit/server/';
+var serverUrl = 'http://192.168.1.94/bitfit/server/'; 
+
+var data;
 
 var app = {
+
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -71,18 +74,29 @@ var app = {
     gatherOurData: function(token, userId) {
         var output;
         $('.event.loading').css("display","inline-block");
-        console.log("Trying to connect to server @" + serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId);
+        console.log("Trying to connect to server @" + serverUrl 
+            + 'api/?request=items&access_token=' + token 
+            + '&user_id=' + userId);
         $.ajax({
-            url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId
-        }).done(function( data ) {
-            console.log("Done... Data gathered:\n" + data);
-            app.outputOurData(jQuery.parseJSON(data));
+            url: serverUrl + 'api/?request=items&access_token=' 
+            + token + '&user_id=' + userId
+        }).done(function( dataT ) {
+            console.log("Done... Data gathered:\n" + dataT);
+            data = jQuery.parseJSON(dataT);
+            app.outputCollections();
         });
         $('.event.loading').css("display","none");
     },
     
-    outputOurData: function(data) {
-        $.each(data.collections, function(index, object) {$("#list").append("<a class='collection col-6' href='#'>" + object.name +"</a>")});
+    outputCollections: function() {
+        $.each(data.collections, function(index, object) {
+            $("#list").append("<a class='col-6' href='#' id='n26'>" 
+                + object.name +"</a>")});
         app.viewPage('collections');
     }
 };
+
+$('a.col-6').on("click", function(e) {
+    e.preventDefault();
+    alert($(e.target).attr("id"));
+});
