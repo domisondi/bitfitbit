@@ -45,33 +45,91 @@
 
 <body>
     <div class="app">
-        <section id="login" class="page" style="display:block;">
+        <section id="login" class="page" style="display:none;">
             <div class="center">
                 <img id="logo" src="./img/logo.png" height="40" />
-                <div id="deviceready" class="blink">
+                <div class="blink">
                     <p class="event authenticating">Waiting for Authentication</p>
                     <p class="event loading">Loading Data from Server</p>
                 </div>
             </div>
         </section>
-        <section id="collections" class="page" style="display: none;">
+        <section id="collections" class="page" style="display: block;">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <h2>Collections</h2>
-                        <p class="description">Please choose one collection in order to view your progress.</p>
+                        <p class="description">Choose a collection in order to start a healthier life. Keep moving!</p>
                     </div>
                 </div>
                 <div class="row">
-                    <a class="collection col-6" href="#">Collection 1</a>
-                    <a class="collection col-6" href="#">Collection 2</a>
-                    <a class="collection col-6" href="#">Collection 3</a>
-                    <a class="collection col-6" href="#">Collection 4</a>
+                    <a class="collection col-6" href="#">
+                        Collection 1
+                        <i>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's..</i>
+                    </a>
+                    <a class="collection col-6" href="#">
+                        Collection 2
+                        <i></i>
+                    </a>
+                    <a class="collection col-6" href="#">
+                        Collection 3
+                        <i></i>
+                    </a>
+                    <a class="collection col-6" href="#">
+                        Collection 4
+                        <i></i>
+                    </a>
+                    <!-- ... -->
                 </div>
             </div>
         </section>
         <section id="items" class="page" style="display: none;">
-            
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Collection Name</h2>
+                        <p class="description">Collection description</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul id="item-list" class="col-12">
+                        <li class="achieved">
+                            <h4 class="item-name">Name 1</h4>
+                            <p class="item-description">
+                                Description iuaefiesafh aeiuf seufa ioua faiwoeuf oiesafaeif uaf 
+                                <span class="item-goal"><img src="img/goal.png" />Goal</span>
+                                <span class="item-prize"><img src="img/award.png" />Prize</span>
+                            </p>
+                        </li>
+                        <li class="achieved">
+                            <h4 class="item-name">Name 2</h4>
+                            <p class="item-description">
+                                Description
+                                <span class="item-goal"><img src="img/goal.png" />Goal</span>
+                                <span class="item-prize"><img src="img/award.png" />Prize</span>
+                            </p>
+                        </li>
+                        <li>
+                            <h4 class="item-name">Name 3</h4>
+                            <p class="item-description">
+                                Description
+                                <span class="item-goal"><img src="img/goal.png" />Goal</span>
+                                <span class="item-prize"><img src="img/award.png" />Prize</span>
+                                <a href="#" class="item-button">Purchase</a>
+                            </p>
+                        </li>
+                        <li>
+                            <h4 class="item-name">Name 4</h4>
+                            <p class="item-description">
+                                Description
+                                <span class="item-goal"><img src="img/goal.png" />Goal</span>
+                                <span class="item-prize"><img src="img/award.png" />Prize</span>
+                                <a href="#" class="item-button">Purchase</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>            
         </section>
     </div>
     
@@ -81,7 +139,7 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/visuals.js"></script>
     <script type="text/javascript">
-        app.initialize();
+        //app.initialize();
     </script>
 </body>
 
