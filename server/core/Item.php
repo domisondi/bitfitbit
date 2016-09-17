@@ -7,6 +7,7 @@ class Item {
     var $name;
     var $description;
     var $nr_steps;
+    var $reward;
     
     public function __construct($id, $coll_id, $data = null) {
         $this->id = $id;
@@ -38,12 +39,13 @@ class Item {
         $database->bind('coll_id', $this->coll_id);
         $item_id = $database->get_single()['max_id'] + 1;
         
-        $database->query("INSERT INTO items (id, coll_id, name, description, nr_steps) VALUES (:id, :coll_id, :name, :description, :nr_steps)");
+        $database->query("INSERT INTO items (id, coll_id, name, description, nr_steps, reward) VALUES (:id, :coll_id, :name, :description, :nr_steps, :reward)");
         $database->bind('id', $item_id);
         $database->bind('coll_id', $this->coll_id);
         $database->bind('name', $this->name);
         $database->bind('description', $this->description);
         $database->bind('nr_steps', $this->nr_steps);
+        $database->bind('reward', $this->reward);
         $res = $database->execute();
         if($res===false) {
             $database->cancelTransaction();

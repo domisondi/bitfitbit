@@ -109,4 +109,19 @@ class User {
         $database->bind('item_id', $item->id);
         $database->execute();
     }
+    
+    public function get_rewards() {
+        global $database;
+        
+        $rewards = array();
+        $database->query("SELECT reward FROM items WHERE EXISTS (SELECT * FROM items_done WHERE item_id=items.id AND items.coll_id=items_done.coll_id AND user_id=:user_id)");
+        $database->bind('user_id', $this->id);
+        $results = $database->get_results();
+        
+        foreach($results as $result){
+            array_push($rewards, $result['reward']);
+        }
+        
+        return $rewards;
+    }
 }
