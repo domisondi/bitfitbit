@@ -57,11 +57,12 @@
 
 /* Collections */
 .page#collections a {
-    height: 200px;
+    height: 150px;
     background-color: orange;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-decoration: none;
     font-size: 1rem;
+    padding-bottom: 20px;
 }
 
 .page#collections a span {

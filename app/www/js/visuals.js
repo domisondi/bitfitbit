@@ -10,8 +10,3 @@ $(function() {
 
 $('a.collection').height(.5 * $('a.collection').width());
 
-var colors = ['#00a0b0', '#cc333f', '#eb6841', '#edc951'];
-$('#collections a').each(function(i) {
-	$(this).prepend('<span>#' + (i+1).toString() + '</span>');
-	$(this).css('background-color', colors[i % colors.length]);
-});

@@ -97,9 +97,13 @@ var app = {
     },
     
     outputCollections: function() {
+        var i = 0;
+        var colors = ['#00a0b0', '#cc333f', '#eb6841', '#edc951'];
         $.each(data.collections, function(index, object) {
-            $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" +
-                object.name + "<i id='" + object.id + "'>" + object.description + "</i></a>")});
+            i++;
+            $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" + "<span>#" + (i).toString() + "</span><h3>" +
+                object.name + "</h3><i id='" + object.id + "'>" + object.description + "</i></a>");
+            $("#" + object.id).css('background-color', colors[i % colors.length]);});
         app.viewPage('collections');
     }
 };

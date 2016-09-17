@@ -58,7 +58,10 @@ h2:after {
 }
 
 h3 {
-	font-size: 1.375rem;
+	font-size: 1.3rem;
+        display: inline;
+        margin: 0;
+        padding:0;
 }
 
 h4 {
