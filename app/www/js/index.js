@@ -90,13 +90,41 @@ var app = {
     
     outputCollections: function() {
         $.each(data.collections, function(index, object) {
-            $("#list").append("<a class='col-6' href='#' id='n26'>" 
-                + object.name +"</a>")});
+            $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" +
+                object.name + "<i id='" + object.id + "'>" + object.description + "</i></a>")});
         app.viewPage('collections');
     }
 };
 
-$('a.col-6').on("click", function(e) {
+$('#list').on("click", '.collection', function(e) {
     e.preventDefault();
-    alert($(e.target).attr("id"));
+    $('#collections').hide();
+
+    // fuck item list to death
+    $('#item-list').html('');
+
+    // create items
+    $.each(data.collections[e.target.id].items, function(index, object) {
+        var achieved = '';
+        if(object.completed) achieved = 'achieved';
+        
+        $('#item-list').append('<li class="'+achieved+'"><h4 class="item-name">' + object.name +'</h4>'+
+                            '<p class="item-description">'+
+                                object.description +
+                                '<span class="item-goal"><img src="img/goal.png" />'+ object.nr_steps +' Steps</span>'+
+                                '<span class="item-prize"><img src="img/award.png" /> '+ object.reward +'</span>'+
+                            '</p></li>');
+    });
+
+    $('#collection-name').html(data.collections[e.target.id].name);
+    $('#collection-description').html(data.collections[e.target.id].description);
+
+    $('#items').show();
+    window.scrollTo(0,0);
+});
+
+$('#back-button').on('click', function() {
+    $('#items').hide();
+    $('#collections').show();
+    window.scrollTo(0,0);
 });
