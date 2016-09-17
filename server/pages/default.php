@@ -36,6 +36,9 @@
                     <label>Number of steps<input type="number" class="form-control" name="nr_steps" value="" placeholder="100000"></label>
                 </div>
                 <div class="form-group">
+                    <label>Reward (leave empty if no reward)<input type="text" class="form-control" name="reward" value="" placeholder="Reward..."></label>
+                </div>
+                <div class="form-group">
                     <input type="submit" class="btn btn-primary" name="create_item" value="Create">
                 </div>
             </form>

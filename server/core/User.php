@@ -12,6 +12,7 @@ class User {
     
     public function __construct($id, $data = null) {
         $this->id = $id;
+        $this->fitbit = new FitBit();
         
         global $database;
         if(!$data || !is_array($data)){
@@ -33,8 +34,6 @@ class User {
             $this->steps_used = $this->get_fitbit_lifetime_stepcount();
             $this->insert_into_database();
         }
-        
-        $this->fitbit = new FitBit();
     }
     
     public function insert_into_database() {
@@ -99,6 +98,13 @@ class User {
     }
     
     public function complete_item($item){
+        // check if not already completed
+        if($this->has_item_completed($item)) throw new Exception('Item already completed...');
+        
+        $lifetime_count = $this->get_fitbit_lifetime_stepcount();
+        if($this->steps_used+$item->nr_steps > $lifetime_count) throw new Exception ('You have too few steps...');
+        
+        // enough steps here
         $this->steps_used += $item->nr_steps;
         $this->update_in_database();
         
@@ -107,5 +113,21 @@ class User {
         $database->bind('user_id', $this->id);
         $database->bind('coll_id', $item->coll_id);
         $database->bind('item_id', $item->id);
+        $database->execute();
+    }
+    
+    public function get_rewards() {
+        global $database;
+        
+        $rewards = array();
+        $database->query("SELECT reward FROM items WHERE EXISTS (SELECT * FROM items_done WHERE item_id=items.id AND items.coll_id=items_done.coll_id AND user_id=:user_id)");
+        $database->bind('user_id', $this->id);
+        $results = $database->get_results();
+        
+        foreach($results as $result){
+            array_push($rewards, $result['reward']);
+        }
+        
+        return $rewards;
     }
 }

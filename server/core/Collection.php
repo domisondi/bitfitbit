@@ -56,9 +56,25 @@ class Collection {
     }
     
     public static function delete_collection($id){
-        global $database;
-        $database->query("DELETE FROM collections WHERE id=:id");
-        $database->bind('id', $id);
-        return $database->execute();
+        try {
+            $collection = new Collection($id);
+            
+            global $database;
+            $database->query("DELETE FROM collections WHERE id=:id");
+            $database->bind('id', $id);
+            $res = $database->execute();
+            
+            $database->query("DELETE FROM items WHERE coll_id=:id");
+            $database->bind('id', $id);
+            $database->execute();
+            
+            $database->query("DELETE FROM items_done WHERE coll_id=:id");
+            $database->bind('id', $id);
+            $database->execute();
+            
+            return $res;
+        } catch(Exception $ex){
+            return false;
+        }
     }
 }

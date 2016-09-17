@@ -5,7 +5,7 @@ require_once '../core/core.php';
 global $output;
 $output = array('status' => 0, 'err_msg' => '');
 
-$valid_requests = array('items', 'bits', 'stats', 'complete');
+$valid_requests = array('items', 'bits', 'stats', 'complete', 'rewards');
 
 ignore_user_abort(true);
 
