@@ -9,7 +9,7 @@ if(isset($_REQUEST['access_token']) && isset($_REQUEST['user_id'])){
     
     function action_after_api() {
         global $user;
-        $user->update_in_database();
+        if($user) $user->update_in_database();
     }
 }
 else throw new Exception('Unrecognized request.');

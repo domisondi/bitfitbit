@@ -12,6 +12,7 @@ class User {
     
     public function __construct($id, $data = null) {
         $this->id = $id;
+        $this->fitbit = new FitBit();
         
         global $database;
         if(!$data || !is_array($data)){
@@ -33,8 +34,6 @@ class User {
             $this->steps_used = $this->get_fitbit_lifetime_stepcount();
             $this->insert_into_database();
         }
-        
-        $this->fitbit = new FitBit();
     }
     
     public function insert_into_database() {
