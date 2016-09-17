@@ -19,6 +19,9 @@
 var serverUrl = 'http://bitfit.dominicsonderegger.ch/'; 
 
 var data;
+var token;
+var userId;
+var avail_steps = 0;
 
 var app = {
 
@@ -58,20 +61,22 @@ var app = {
                 scope: 'activity',
                 expires_in: 604800
             }
-        }, function(token, response){
+        }, function(token_t, response){
+            token = token_t;
+
             $.urlParam = function(name, response){
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(response);
                 return results[1] || 0;
             }
-            var userId = $.urlParam('user_id', response);
+            userId = $.urlParam('user_id', response);
             $('.event.authenticating').css("display","none");
-            app.gatherOurData(token, userId);
+            app.gatherOurData();
             
         }, function(error, response){
             alert(response);
         });
     },
-    gatherOurData: function(token, userId) {
+    gatherOurData: function() {
         var output;
         $('.event.loading').css("display","inline-block");
         console.log("Trying to connect to server @" + serverUrl 
@@ -85,6 +90,9 @@ var app = {
             data = jQuery.parseJSON(dataT);
             app.outputCollections();
         });
+
+        update_nr_available_steps();
+
         $('.event.loading').css("display","none");
     },
     
@@ -128,3 +136,19 @@ $('#back-button').on('click', function() {
     $('#collections').show();
     window.scrollTo(0,0);
 });
+
+function update_nr_available_steps() {
+    $.ajax({
+        dataType: 'json',
+        url: serverUrl + 'api/?request=stats&access_token=' 
+        + token + '&user_id=' + userId
+    }).done(function( dataT ) {
+        console.log("Done... Stats gathered:\n" + dataT.stats.step_count);
+        avail_steps = dataT.stats.step_count;
+        update_nr_available_steps_display();
+    });
+}
+
+function update_nr_available_steps_display() {
+    $('#available-steps').html(avail_steps);
+}
