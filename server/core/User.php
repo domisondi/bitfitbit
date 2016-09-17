@@ -98,6 +98,13 @@ class User {
     }
     
     public function complete_item($item){
+        // check if not already completed
+        if($this->has_item_completed($item)) throw new Exception('Item already completed...');
+        
+        $lifetime_count = $this->get_fitbit_lifetime_stepcount();
+        if($this->steps_used+$item->nr_steps > $lifetime_count) throw new Exception ('You have too few steps...');
+        
+        // enough steps here
         $this->steps_used += $item->nr_steps;
         $this->update_in_database();
         
