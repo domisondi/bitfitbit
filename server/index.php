@@ -60,7 +60,7 @@ else if(isset($_POST['delete_collection'])){
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul id="navbar-content" class="nav navbar-nav navbar-right">
-                            <li><a href=""><?php echo 'Home'; ?></a></li>       
+                            <li><a href="<?php echo BITFIT_HOME_URL; ?>"><?php echo 'Home'; ?></a></li>       
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
