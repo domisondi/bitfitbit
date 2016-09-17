@@ -18,10 +18,33 @@
  */
 
 .app {
-    padding: 1rem;
+    padding: 0rem;
+}
+
+#menu {
+    background-color: #fff;
+    box-shadow: 0 0 5px #000;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+}
+#menu #back-button {
+    display: inline-block;
+    margin: 20px 0 0 20px;
+    float: left;
+}
+#menu #available-steps {
+    float: right;
+    margin: 20px 20px 0 0;
+    display: inline-block;
 }
 
 /* Home */
+.page {
+    padding-top: 80px;
+}
+
 .page#home {
     text-align: center;
 }

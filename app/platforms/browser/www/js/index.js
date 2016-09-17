@@ -154,5 +154,5 @@ function update_nr_available_steps() {
 }
 
 function update_nr_available_steps_display() {
-    $('#available-steps').html(avail_steps);
+    $('#available-steps').html("Fitcoins: " + avail_steps);
 }
