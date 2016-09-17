@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var serverUrl = 'http://172.31.2.42/bitfit/server/';
+var serverUrl = 'http://192.168.1.94/bitfit/server/';
 
 var app = {
     // Application Constructor
@@ -69,13 +69,14 @@ var app = {
         });
     },
     gatherOurData: function(token, userId) {
-        
         var output;
         $('.event.loading').css("display","inline-block");
+        console.log("Trying to connect to server @" + serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId);
         $.ajax({
             url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId
-        }).done(function(data) {
-            app.outputOurData(jQuery.parseJSON( data));
+        }).done(function( data ) {
+            console.log("Done... Data gathered:\n" + data);
+            app.outputOurData(jQuery.parseJSON(data));
         });
         $('.event.loading').css("display","none");
     },
@@ -83,6 +84,5 @@ var app = {
     outputOurData: function(data) {
         $.each(data.collections, function(index, object) {$("#list").append("<a class='collection col-6' href='#'>" + object.name +"</a>")});
         app.viewPage('collections');
-        
     }
 };
