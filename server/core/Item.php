@@ -84,7 +84,10 @@ class Item {
     
     public function is_done_by_user($user){
         $users = $this->get_done_by_users();
-        if(in_array($user, $users)) return true;
-        else return false;
+        
+        foreach($users as $u){
+            if($u->id == $user->id) return true;
+        }
+        return false;
     }
 }

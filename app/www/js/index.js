@@ -99,6 +99,7 @@ var app = {
     outputCollections: function() {
         var i = 0;
         var colors = ['#00a0b0', '#cc333f', '#eb6841', '#edc951'];
+        $('#list').html('');
         $.each(data.collections, function(index, object) {
             i++;
             $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" + "<span id='" + object.id + "'>#" + (i).toString() + "</span><h3 id='" + object.id + "'>" +
@@ -153,7 +154,6 @@ $('#list').on("click", '.collection', function(e) {
 
 $('#item-list').on("click", '.item-button', function(e) {
     e.preventDefault();
-    $('#items').hide();
     
     var current_item_id =  e.target.id;
     
@@ -162,19 +162,21 @@ $('#item-list').on("click", '.item-button', function(e) {
         url : serverUrl + 'api/?request=complete&user_id='+userId+'&access_token='+token+'&item_id='+ current_item_id +'&coll_id='+ current_collection_id
     }).done(function(dataT) {
         if(dataT.status==0){
-            console.log("Done... Purchase completed:\n" + dataT.step_count);
+            console.log("Done... Purchase completed:\n" + JSON.stringify(dataT.collections));
+            $('#items').hide();
             avail_steps = dataT.step_count;
+            data.collections = dataT.collections;
             update_nr_available_steps_display();
             alert('Purchase completed.');
+            $('#purchase-hash').val(Math.random() * 0x10000000000000000 + 1);
+            $('#purchase').show();
+            window.scrollTo(0,0);
         }
         else {
             console.log("Done... Purchase failed:\n" + dataT.err_msg);
             alert('Purchase failed: '+dataT.err_msg);
         }
     });
-    $('#purchase-hash').val(Math.random() * 0x10000000000000000 + 1);
-    $('#purchase').show();
-    window.scrollTo(0,0);
 });
 
 $('#back-button').on('click', function() {
