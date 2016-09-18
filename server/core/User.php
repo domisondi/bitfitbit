@@ -101,8 +101,8 @@ class User {
         // check if not already completed
         if($this->has_item_completed($item)) throw new Exception('Item already completed...');
         
-        $lifetime_count = $this->get_fitbit_lifetime_stepcount();
-        if($this->steps_used+$item->nr_steps > $lifetime_count) throw new Exception ('You have too few steps...');
+        $avail_steps = $this->get_current_step_count();
+        if($item->nr_steps > $avail_steps) throw new Exception ('You have too few steps...');
         
         // enough steps here
         $this->steps_used += $item->nr_steps;
@@ -114,6 +114,8 @@ class User {
         $database->bind('coll_id', $item->coll_id);
         $database->bind('item_id', $item->id);
         $database->execute();
+        
+        return $avail_steps - $item->nr_steps;
     }
     
     public function get_rewards() {
