@@ -7,6 +7,6 @@ $(function() {
         'margin-top' : function() {return -$(this).outerHeight()/2}
     });
 });
-
-$('a.collection').height(.5 * $('a.collection').width());
-
+function adjustCss() {
+    
+}

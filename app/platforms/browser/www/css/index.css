@@ -43,6 +43,7 @@
 /* Home */
 .page {
     padding-top: 80px;
+    overflow: hidden;
 }
 
 .page#home {
@@ -106,6 +107,7 @@
 }
 #item-list li {
     list-style: none;
+    position: relative;
 }
 #item-list li .item-description {
     line-height: 1.2;
@@ -126,20 +128,37 @@
 }
 #item-list li .item-button {
     text-decoration: none;
-    background-color: #4fa80d;
+    background-color: #00a0b0;
     display: inline-block;
     padding: 5px 10px;
     text-transform: uppercase;
-    font-size:.9em;
+    font-size:.75em;
     font-weight: bold;
     margin-top: 15px;
+    border: none;
+    color: #fff;
 }
-#item-list li:before {
+#item-list li .item-button:disabled {
+     background-color: #c7c8ca;
+     color: #939598;
+}
+#item-list li:not(:last-child):before {
+    content:'';
+    position: absolute;
+    height: 130%;
+    left: -35px;
+    top: 0;
+    bottom: -40px;
+    width: 5px;
+    background-color: #000;
+}
+#item-list li:last-child:before {
     content:'';
     position: absolute;
     height: 100%;
-    left: 0;
+    left: -35px;
     top: 0;
+    bottom: -40px;
     width: 5px;
     background-color: #000;
 }
@@ -151,15 +170,22 @@
     background-color: #E4E4E4;
     border: solid 2px #000;
     position: absolute;
-    left:-54px;
+    left:-50px;
     z-index: 1;
     top: -5px;
 }
+#item-list li.achieved:before {
+    background-color: #00a0b0; 
+}
 #item-list li.achieved h4:before {
-    background-color: #4fa80d;
-    border: solid 2px #000;
-    position: absolute;
-    left:-54px;
-    z-index: 1;
-    top: -5px;
+    border-color: #00a0b0;
+}
+
+#purchase {
+    text-align: center;
+}
+
+#purchase input {
+    margin-top: 200px;
+    font-size: 2rem;
 }

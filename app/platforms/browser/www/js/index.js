@@ -101,44 +101,91 @@ var app = {
         var colors = ['#00a0b0', '#cc333f', '#eb6841', '#edc951'];
         $.each(data.collections, function(index, object) {
             i++;
-            $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" + "<span>#" + (i).toString() + "</span><h3>" +
+            $("#list").append("<a class='collection col-6' href='#' id='" + object.id + "'>" + "<span id='" + object.id + "'>#" + (i).toString() + "</span><h3 id='" + object.id + "'>" +
                 object.name + "</h3><i id='" + object.id + "'>" + object.description + "</i></a>");
             $("#" + object.id).css('background-color', colors[i % colors.length]);});
         app.viewPage('collections');
     }
 };
 
+var current_collection_id = -1;
 $('#list').on("click", '.collection', function(e) {
     e.preventDefault();
+    
+    if(!e.target.id) return;
+    
+    // set current_collection_id
+    current_collection_id = e.target.id;
+    
     $('#collections').hide();
 
     // fuck item list to death
     $('#item-list').html('');
 
     // create items
-    $.each(data.collections[e.target.id].items, function(index, object) {
+    $.each(data.collections[current_collection_id].items, function(index, object) {
         var achieved = '';
+        var purchaseBtn = '';
         if(object.completed) achieved = 'achieved';
         
-        $('#item-list').append('<li class="'+achieved+'"><h4 class="item-name">' + object.name +'</h4>'+
+        var button_ev_disabled = '';
+        if(object.nr_steps > avail_steps || object.completed) { //avail_steps
+            button_ev_disabled = 'disabled';
+        }
+        purchaseBtn = '<button class="item-button" '+button_ev_disabled+' id="'+object.id+'">Purchase</button>';
+        $('#item-list').append('<li class="item-element '+achieved+'"><h4 class="item-name">' + object.name +'</h4>'+
                             '<p class="item-description">'+
                                 object.description +
                                 '<span class="item-goal"><img src="img/goal.png" />'+ object.nr_steps +' Steps</span>'+
-                                '<span class="item-prize"><img src="img/award.png" /> '+ object.reward +'</span>'+
+                                '<span class="item-prize"><img src="img/award.png" /> '+ object.reward +'</span>'+purchaseBtn+
                             '</p></li>');
     });
 
-    $('#collection-name').html(data.collections[e.target.id].name);
-    $('#collection-description').html(data.collections[e.target.id].description);
+    $('#collection-name').html(data.collections[current_collection_id].name);
+    $('#collection-description').html(data.collections[current_collection_id].description);
+
+    // show back button
+    $('#back-button').show();
 
     $('#items').show();
     window.scrollTo(0,0);
 });
 
+$('#item-list').on("click", '.item-button', function(e) {
+    e.preventDefault();
+    $('#items').hide();
+    
+    var current_item_id =  e.target.id;
+    
+    $.ajax({
+        dataType: 'json',
+        url : serverUrl + 'api/?request=complete&user_id='+userId+'&access_token='+token+'&item_id='+ current_item_id +'&coll_id='+ current_collection_id
+    }).done(function(dataT) {
+        if(dataT.status==0){
+            console.log("Done... Purchase completed:\n" + dataT.step_count);
+            avail_steps = dataT.step_count;
+            update_nr_available_steps_display();
+            alert('Purchase completed.');
+        }
+        else {
+            console.log("Done... Purchase failed:\n" + dataT.err_msg);
+            alert('Purchase failed: '+dataT.err_msg);
+        }
+    });
+    $('#purchase-hash').val(Math.random() * 0x10000000000000000 + 1);
+    $('#purchase').show();
+    window.scrollTo(0,0);
+});
+
 $('#back-button').on('click', function() {
     $('#items').hide();
+    $('#purchase').hide();  
     $('#collections').show();
+    current_collection_id = -1;
     window.scrollTo(0,0);
+    
+    // hide back button
+    $('#back-button').hide();
 });
 
 function update_nr_available_steps() {
